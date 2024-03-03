@@ -1,0 +1,3 @@
+STORE = {
+    'user_details': {}
+}

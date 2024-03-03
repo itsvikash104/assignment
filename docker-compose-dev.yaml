@@ -1,0 +1,29 @@
+services:
+  proxy:
+    image: nginx:latest
+    volumes:
+      - ./proxy/nginx.conf:/etc/nginx/conf.d/default.conf
+    ports:
+      - "8080:80"
+    networks:
+      - all-services
+  frontend:
+    build:
+      context: ./frontend/
+      dockerfile: Dockerfile.dev
+    volumes:
+      - ./frontend/:/code/
+    networks:
+      - all-services
+  
+  backend:
+    build:
+      context: ./backend/
+      dockerfile: Dockerfile.dev
+    volumes:
+      - ./backend/:/code/
+    networks:
+      - all-services
+networks:
+  all-services:
+    driver: bridge

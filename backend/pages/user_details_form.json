@@ -1,0 +1,95 @@
+{
+  "page_type": "form_steps",
+  "form_title": "Tell us some more",
+  "form_timeout_seconds": 1800,
+  "form_steps": [
+    {
+      "page_title": "Page1",
+      "inputs": [
+        {
+          "input_id": "name",
+          "input_type": "text",
+          "input_label": "Name",
+          "input_placeholder": "Your Name",
+          "input_value": "",
+          "input_required": true
+        },
+        {
+          "input_id": "gender",
+          "input_type": "select",
+          "input_label": "Gender",
+          "input_placeholder": "Your Gender",
+          "input_value": "",
+          "input_required": true,
+          "input_options": [
+            {
+              "name": "Male",
+              "value": "M"
+            },
+            {
+              "name": "Female",
+              "value": "F"
+            },
+            {
+              "name": "Nonbinary",
+              "value": "Nonbinary"
+            }
+          ]
+        },
+        {
+          "input_id": "age",
+          "input_type": "number",
+          "input_label": "Age",
+          "input_placeholder": "",
+          "input_value": "",
+          "input_required": true
+        }
+      ]
+    },
+    {
+      "page_title": "Page 2",
+      "inputs": [
+        {
+          "input_id": "profession",
+          "input_type": "custom_select",
+          "input_label": "Profession",
+          "input_placeholder": "What do you do?",
+          "input_value": "",
+          "input_required": true,
+          "input_options": [
+            {
+              "value": "Owner"
+            },
+            {
+              "value": "Agent"
+            },
+            {
+              "value": "Buyer"
+            }
+          ]
+        },
+        {
+          "input_id": "services",
+          "input_type": "text_area",
+          "input_label": "What services do you need?",
+          "input_placeholder": "What can we help you with...",
+          "input_value": "",
+          "input_required": true
+        }
+      ]
+    },
+    {
+      "page_title": "Page3",
+      "inputs": [
+        {
+          "input_id": "found_through",
+          "input_type": "text_area",
+          "input_label": "How did you find us?",
+          "input_placeholder": "Optional",
+          "input_value": "",
+          "input_required": false
+        }
+      ]
+    }
+  ]
+}
