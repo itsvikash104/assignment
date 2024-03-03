@@ -22,7 +22,11 @@ The form times out in 30 mins. The timeout threshold should be configurable thro
 1. endpoints for FE to get the config json
 2. endpoints to receive the submission data from FE with data validation. Data persistence is a bonus but not required
 
-## Contribute
+## Screenshot
+
+![Alt text](docs/screenshot.png 'a title')
+
+## Setup
 
 - Use the follwong command to start the development server:
 
