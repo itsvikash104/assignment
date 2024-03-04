@@ -39,39 +39,39 @@ export const PageConfigUrls = {
 export function valid(inputElement) {
     const value = inputElement.input_value;
     if (inputElement.input_id === FormInputId.NAME) {
-        if (value.length === 0) {
+        if (!value || value.length === 0) {
             inputElement.validation = "Name required!";
             return false;
         }
         inputElement.validation = undefined;
     }
     else if (inputElement.input_id === FormInputId.GENDER) {
-        if (value.length === 0) {
+        if (!value || value.length === 0) {
             inputElement.validation = "Gender required!";
             return false;
         }
         inputElement.validation = undefined;
     }
     else if (inputElement.input_id === FormInputId.AGE) {
-        if (value === "") {
+        if (!value || value === "") {
             inputElement.validation = "Age required!";
             return false;
         }
-        else if (value <= 0 || value >= 200) {
+        else if (!value || value <= 0 || value >= 200) {
             inputElement.validation = "Invalid age!";
             return false;
         }
         inputElement.validation = undefined;
     }
     else if (inputElement.input_id === FormInputId.PROFESSION) {
-        if (value.length === 0) {
+        if (!value || value.length === 0) {
             inputElement.validation = "Profession required!";
             return false;
         }
         inputElement.validation = undefined;
     }
     else if (inputElement.input_id === FormInputId.SERVICES) {
-        if (value.length === 0) {
+        if (!value || value.length === 0) {
             inputElement.validation = "Services required!";
             return false;
         }
