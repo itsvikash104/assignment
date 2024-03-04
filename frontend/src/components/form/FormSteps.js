@@ -1,14 +1,13 @@
 import React from 'react';
 import FormInputElement from './FormInputElement';
 import Timer from '../timer/Timer';
-import { SaveState } from '../../enums';
+import { SaveState, valid } from '../../utils';
 import { saveUserDetails } from '../../api';
 
 function FormStep({step, onChange}) {
-    const { page_title, inputs } = step;
+    const { inputs } = step;
     return (
         <div className="form-step-container">
-            <div className="form-step-name">{page_title}</div>
             {
                 inputs?.length > 0 && inputs.map((input_element, i) => (
                     <FormInputElement key={i} element={input_element} onChange={onChange} />
@@ -28,22 +27,63 @@ export default function FormSteps({formConfig}) {
     const handleChange = (inputId, newValue) => {
         const formJsonCopy = JSON.parse(JSON.stringify(formJson));
         for (const step of formJsonCopy.form_steps) {
-            for (const input_element of step.inputs) {
-                if (input_element.input_id === inputId) {
-                    input_element.input_value = newValue;
+            for (const inputElement of step.inputs) {
+                if (inputElement.input_id === inputId) {
+                    inputElement.input_value = newValue;
+                    valid(inputElement);
                 }
             }
         }
         setFormJson(formJsonCopy);
     }
 
-    const handleFormTimeout = () => {
-        setTimeover(true);
+    const forceRender = () => {
+        setFormJson({...formJson});
     }
 
-    const handleSubmit = async () => {
-        const userDetails = {};
+    const allValid = () => {
+        let allValid = true;
+        for (const step of formJson.form_steps) {
+            if(step !== formJson.form_steps[stepIndex]) {
+                continue
+            }
+            for (const inputElement of step.inputs) {
+                if(!valid(inputElement)) {
+                    allValid = false;
+                }
+            }
+        }
+        return allValid;
+    }
 
+    const handleNextClick = () => {
+        if(!allValid()) {
+            forceRender();
+            return
+        }
+        setStepIndex(prev => prev + 1);
+    }
+
+    const handleBackClick = () => {
+        if(!allValid()) {
+            forceRender();
+            return
+        }
+        setStepIndex(prev => prev - 1);
+    }
+
+    const handleFormTimeout = () => {
+        setTimeover(true);
+        setTimeout(() => {window.location.href = "/"}, 5000)
+    }
+
+    const handleSubmitClick = async () => {
+        if (!allValid) {
+            forceRender()
+            return
+        }
+
+        const userDetails = {};
         for (const step of formJson.form_steps) {
             for (const input_element of step.inputs) {
                 userDetails[input_element.input_id] = input_element.input_value;
@@ -62,32 +102,35 @@ export default function FormSteps({formConfig}) {
     }
 
     return (
-        <div className="form-steps-container">
-            <h3 className="form-name">{formJson?.form_title}</h3>
+        <div className="form-steps-container card text-bg-light border-secondary mt-5">
+            <h3 className="form-name text-center card-header p-3">{formJson?.form_title}</h3>
             
-            {saveState === SaveState.SAVE_IN_PROGRESS && <div>Save in progress...</div>}
+            {saveState === SaveState.SAVE_IN_PROGRESS && <p className="h5 p-3">Save in progress...</p>}
             
-            {saveState === SaveState.SAVE_FAILED && <div>Failed to save!</div>}
+            {saveState === SaveState.SAVE_FAILED && <p className="h5 p-3">Failed to save! <a href="/">Retry</a> </p>}
             
             {saveState === SaveState.SAVE_SUCCEEDED && <>
-                <div>Your response has been saved successfully. <a href={userLink}>Go to saved data</a></div>
+                <p className="h5 p-3">Thanks for the input. <a href={userLink}>Go to saved data</a></p>
             </>}
             
             {saveState === SaveState.SAVE_UNTOUCHED && <>
-                <Timer timeoutSec={formJson.form_timeout_seconds} onTimeout={handleFormTimeout} />
-                
-                {timeover ? (<>Time Over</>) : (
+                {timeover ? (<p className="h5 p-3">Time Over. Reloading...</p>) : (
                     <>
-                        <div>Step {stepIndex + 1}/{formJson?.form_steps.length}</div>
+                        <div className="progress" role="progressbar" aria-label="Step 1px high" style={{height: "2px"}} aria-valuenow={stepIndex + 1} aria-valuemin={0} aria-valuemax={formJson?.form_steps.length}>
+                            <div className="progress-bar progress-bar-striped progress-bar-animated" style={{width: `${(stepIndex + 1) * 100 / formJson?.form_steps.length}%`}}></div>
+                        </div>
                         
                         <FormStep step={formJson?.form_steps[stepIndex]} onChange={handleChange} />
                         
-                        {stepIndex + 1 !== 1 && <button onClick={() => setStepIndex(stepIndex - 1)}>Back</button>}
-                        {stepIndex + 1 !== formJson?.form_steps.length && <button onClick={() => setStepIndex(stepIndex + 1)}>Next</button>}
-                        {stepIndex + 1 === formJson?.form_steps.length && <button onClick={handleSubmit}>Submit</button>}
+                        <div className="form-action-group d-flex justify-content-between">
+                            {stepIndex + 1 !== 1 ? <button className="btn btn-secondary m-3" onClick={handleBackClick}>Back</button> : <div></div>}
+                            {stepIndex + 1 !== formJson?.form_steps.length && <button className="btn btn-primary justify-content-end m-3" onClick={handleNextClick}>Next</button>}
+                            {stepIndex + 1 === formJson?.form_steps.length && <button className="btn btn-primary justify-content-end m-3" onClick={handleSubmitClick}>Submit</button>}
+                        </div>
                     </>
                 )}
             </>}
+            <div className="card-footer text-center"><Timer timeoutSec={formJson.form_timeout_seconds} onTimeout={handleFormTimeout} /></div>
         </div>
     )
 }

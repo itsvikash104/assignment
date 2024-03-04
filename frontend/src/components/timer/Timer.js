@@ -1,8 +1,8 @@
 import React from "react";
 
 function formatTime(seconds) {
-    const result = new Date(seconds * 1000).toISOString().slice(11, 19);
-    return result
+    const result = new Date(seconds * 1000).toISOString().slice(14, 19);
+    return result;
 }
 
 export default function Timer({timeoutSec, onTimeout}) {
@@ -20,7 +20,10 @@ export default function Timer({timeoutSec, onTimeout}) {
             clearInterval(interval); 
             setTimeout(() => onTimeout(), 1);
         }
+    // eslint-disable-next-line
     }, [])
 
-    return <span>Time: {formatTime(timePassed)} / {formatTime(timeoutSec)}</span>
+    return (
+        <span className="display-5">{formatTime(timeoutSec - timePassed)}</span>
+    )
 }

@@ -1,4 +1,4 @@
-import { FormInputTypes } from "../../enums";
+import { FormInputTypes } from "../../utils";
 import { TextInput, SelectInput, NumberInput, CustomSelectInput, TextAreaInput } from "./FormInputs";
 
 export default function FormInputElement({element: input_element, onChange}) {
@@ -10,6 +10,7 @@ export default function FormInputElement({element: input_element, onChange}) {
                 placeholder={input_element.input_placeholder}
                 value={input_element.input_value}
                 required={input_element.input_required}
+                validation={input_element.validation}
                 onChange={onChange} />
         )
     }
@@ -22,6 +23,7 @@ export default function FormInputElement({element: input_element, onChange}) {
                 value={input_element.input_value}
                 options={input_element.input_options}
                 required={input_element.input_required}
+                validation={input_element.validation}
                 onChange={onChange} />
         )
     }
@@ -33,6 +35,7 @@ export default function FormInputElement({element: input_element, onChange}) {
                 placeholder={input_element.input_placeholder}
                 value={input_element.input_value}
                 required={input_element.input_required}
+                validation={input_element.validation}
                 onChange={onChange} />
         )
     }
@@ -45,6 +48,7 @@ export default function FormInputElement({element: input_element, onChange}) {
                 value={input_element.input_value}
                 options={input_element.input_options}
                 required={input_element.input_required}
+                validation={input_element.validation}
                 onChange={onChange} />
         )
     }
@@ -56,6 +60,7 @@ export default function FormInputElement({element: input_element, onChange}) {
                 placeholder={input_element.input_placeholder}
                 value={input_element.input_value}
                 required={input_element.input_required}
+                validation={input_element.validation}
                 onChange={onChange} />
         )
     }

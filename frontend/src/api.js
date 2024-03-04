@@ -1,4 +1,4 @@
-import { PageConfigUrls } from "./enums";
+import { PageConfigUrls } from "./utils";
 
 export async function getPageConfig(configId) {
     const response = await fetch(PageConfigUrls[configId]);

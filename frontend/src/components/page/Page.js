@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import FormSteps from "../form/FormSteps";
-import { PageState } from "../../enums";
+import { PageState } from "../../utils";
 import { getPageConfig } from "../../api";
 
 export default function Page({configId}) {
