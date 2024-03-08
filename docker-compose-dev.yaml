@@ -12,7 +12,8 @@ services:
       context: ./frontend/
       dockerfile: Dockerfile.dev
     volumes:
-      - ./frontend/:/code/
+      - ./frontend/src:/code/src
+      - ./frontend/public:/code/public
     networks:
       - all-services
   

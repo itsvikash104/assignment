@@ -12,4 +12,4 @@ class UserDetails(pydantic.BaseModel):
     age: int
     profession: str
     services: str
-    found_through: str
+    found_through: str | None = None
